@@ -1,0 +1,59 @@
+<div
+  class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen pt-24 pb-16"
+>
+  <div class="container mx-auto px-4">
+    <div class="text-center max-w-4xl mx-auto">
+      <h1 class="text-5xl font-extrabold mb-6 text-gray-900 leading-tight">
+        Transform Your Audio into Actionable Text
+      </h1>
+      <p class="text-xl text-gray-600 mb-10 leading-relaxed">
+        AudioScript uses cutting-edge AI to provide accurate, timestamped
+        transcriptions from various audio sources in minutes.
+      </p>
+      <div class="flex justify-center space-x-4 mb-16">
+        <a
+          routerLink="/transcribe"
+          class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+        >
+          Start Transcribing
+        </a>
+        <a
+          href="#features"
+          class="px-8 py-3 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-colors shadow-md"
+        >
+          Learn More
+        </a>
+      </div>
+
+      <div id="features" class="grid md:grid-cols-3 gap-8">
+        <div
+          *ngFor="let feature of features"
+          class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+        >
+          <div class="mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12 text-blue-600 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                [attr.d]="feature.icon"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-gray-800">
+            {{ feature.title }}
+          </h3>
+          <p class="text-gray-600">
+            {{ feature.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
