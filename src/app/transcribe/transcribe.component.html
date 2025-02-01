@@ -9,6 +9,7 @@
         <label class="block text-gray-700 mb-2"> Audio File </label>
         <input
           type="file"
+          (change)="onFileSelected($event)"
           accept=".mp3,.wav,.mp4,.m4a"
           class="w-full p-3 border rounded-lg"
         />
@@ -18,17 +19,33 @@
       </div>
 
       <div class="mb-6">
-        <label class="block text-gray-700 mb-2"> Or Enter Audio URL </label>
+        <label class="block text-gray-700 mb-2">Or Enter Audio URL</label>
         <input
           type="text"
+          [(ngModel)]="audioUrl"
+          (ngModelChange)="onUrlInput()"
           placeholder="https://example.com/audio.mp3"
           class="w-full p-3 border rounded-lg"
         />
+        <p
+          class="text-sm mt-2"
+          [class.text-red-500]="isYouTubeUrl"
+          [class.text-gray-500]="!isYouTubeUrl"
+        >
+          {{
+            isYouTubeUrl
+              ? "YouTube URLs are not supported directly. Please download the audio file first."
+              : "Supported sources: Google Drive, Dropbox, S3 (direct download links only)"
+          }}
+        </p>
       </div>
 
       <div class="mb-6">
         <label class="block text-gray-700 mb-2"> Language </label>
-        <select class="w-full p-3 border rounded-lg">
+        <select
+          [(ngModel)]="selectedLanguage"
+          class="w-full p-3 border rounded-lg"
+        >
           <option *ngFor="let lang of supportedLanguages" [value]="lang.code">
             {{ lang.name }}
           </option>
@@ -36,25 +53,29 @@
       </div>
 
       <button
+        (click)="startTranscription()"
+        [disabled]="isTranscribing"
         class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors"
       >
         {{ isTranscribing ? "Transcribing..." : "Start Transcription" }}
       </button>
 
-      <!-- <div *ngIf="error" class="text-red-500 text-center mt-4">
+      <div *ngIf="error" class="text-red-500 text-center mt-4">
         {{ error }}
-      </div> -->
+      </div>
 
       <div *ngIf="transcriptResult" class="mt-8">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-2xl font-semibold">Transcript</h2>
           <div class="flex gap-2">
             <button
+              (click)="copyTranscript()"
               class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
             >
               Copy
             </button>
             <button
+              (click)="downloadTranscript()"
               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
               Download
